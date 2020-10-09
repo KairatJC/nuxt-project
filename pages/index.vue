@@ -15,6 +15,11 @@ import cart from "@/components/cart";
 import { mapState, mapActions } from "vuex";
 
 export default {
+  head() {
+    return {
+      title: `Test Task from Omlekyn Ltd`,
+    }
+  },
   components: {
     goods,
     cart,
@@ -23,6 +28,7 @@ export default {
     // симулирую запрос на сервер
     // и сохраняю все в state
     this.save_data_to_store();
+    console && console.log("%c+", 'font-size: 1px; padding: 40px 87px; line-height: 0; background: url("https://i.ibb.co/FYm176F/dev.gif"); background-size: 175px; color: transparent;');
   },
   methods: {
     ...mapActions({

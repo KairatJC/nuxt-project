@@ -27,7 +27,7 @@ export default {
     return {
       collapsed: false,
       isReady: false,
-      name: "",
+      name: "Загрузка...",
     };
   },
   props: {
@@ -47,13 +47,21 @@ export default {
       if (this.type) {
         this.isReady = true;
       }
+      if (this.names || this.name == "Загрузка...") {
+        this.name = this.names[this.type].G;
+      }
     },
+    names() {
+      if (this.name == "Загрузка...") {
+        this.name = this.names[this.type].G;
+      }
+    }
   },
   beforeMount() {
     if (this.arr_of_obj && this.type) {
       this.isReady = true;
     }
-    if (this.names[this.type].G) {
+    if (this.names || this.names[this.type].G) {
       this.name = this.names[this.type].G;
     }
   },
