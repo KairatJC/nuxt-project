@@ -16,22 +16,29 @@ const actions = {
     // поэтому симулировал запрос на API
     // JSON файлы хранятся в папке static,
     // после генерации статики, они будут лежать в корне сайта
-    get_goods({commit}) {
+    get_goods({ commit, state }) {
         axios({
             method: 'GET',
             url: '/data.json'
         }).then(res => {
             let temp = res.data.Value.Goods
-            temp.forEach((el, ind)=>{
+            temp.forEach((el, ind) => {
                 // добавляю индекс элемента с исходного массива, чтобы потом легко его найти без перебора массива
                 el.index_of_goods = ind;
                 // и инициализация счетчика для корзины
                 el.counter = 0;
+
+                if (state.cart) {
+                    state.cart.forEach(cart_item => {
+                        if (cart_item.index_of_goods === el.index_of_goods)
+                            el.counter = cart_item.counter
+                    })
+                }
             })
             commit('SAVE_GOODS', temp)
         })
     },
-    get_names({commit}) {
+    get_names({ commit }) {
         axios({
             method: 'GET',
             url: '/names.json'
@@ -39,12 +46,12 @@ const actions = {
             commit('SAVE_NAMES', res.data)
         })
     },
-    get_all_data({dispatch, commit}) {
+    get_all_data({ dispatch, commit }) {
         dispatch('get_names')
         dispatch('get_goods')
 
         // каждые 15 сек устанавливается рандомное значение для курса валют.
-        setInterval(function(){
+        setInterval(function () {
             dispatch('get_names')
             dispatch('get_goods')
             commit("SET_CURRENCY", getRandomInt(20, 80))
@@ -52,9 +59,9 @@ const actions = {
     },
 
     // добавление в корзину
-    add_to_cart({commit, state, dispatch}, index) {
+    add_to_cart({ commit, state, dispatch }, index) {
         let isUpdate = false
-        
+
         if (state.cart.length !== 0) {
             state.cart.forEach((el, ind) => {
 
@@ -63,10 +70,10 @@ const actions = {
                     isUpdate = true
                 }
             })
-        } 
+        }
         if (!isUpdate) commit('PUSH_TO_CART', state.goods[index])
     },
-    remove_from_cart({commit, state}, arr) {
+    remove_from_cart({ commit, state }, arr) {
         // удалить из массива 
         commit("REMOVE_FROM_CART", arr)
     },
