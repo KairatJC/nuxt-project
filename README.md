@@ -1,6 +1,6 @@
 # omlekyn-test
 Моя реализация тестового задания с компании Omlekyn Ltd.
-
+[Демо](http://kairat.me/)
 
 ## Build Setup
 ``` bash
