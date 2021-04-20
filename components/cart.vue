@@ -1,10 +1,8 @@
 <template>
-  <!-- cart--opened - для мобильной версии -->
   <div :class="{ 'cart--opened': cart_opened }" class="cart">
-    <h2>Корзина</h2>
+    <h2>Shoping cart</h2>
     <div class="cart__items">
       <template v-if="cart.length != 0">
-        <!-- рендерю товары в группе -->
         <cartItem
           @new_count="new_count()"
           v-for="(item, index) in cart"
@@ -13,17 +11,17 @@
           :key="index"
         />
       </template>
-      <div v-else class="empty-cart">Корзина пуста</div>
+      <div v-else class="empty-cart">Empty, nothing here =(</div>
     </div>
     <div class="cart__total">
-      Общая стоимость: <span>{{ total }} руб.</span>
+      Total amount: <span>{{ total }}$.</span>
     </div>
 
     <button v-if="!cart_opened" class="open-cart" @click="cart_opened = true">
-      Открыть корзину
+      Open cart
     </button>
     <button v-else class="open-cart" @click="cart_opened = false">
-      Закрыть корзину
+      Close cart
     </button>
   </div>
 </template>
@@ -49,23 +47,19 @@ export default {
   },
   watch: {
     currency() {
-      // как только меняется курс валют, пересчитать общую стоимость
       this.get_total();
     },
     cart: {
       deep: true,
       handler() {
-        // как только что-либо меняется в корзине, пересчитать общую стоимость
         this.get_total();
       },
     },
   },
   methods: {
     new_count() {
-      // как только меняем количество товара, пересчитать общую стоимость
       this.get_total();
     },
-    // пересчет общей стоимости
     get_total() {
       let _self = this;
       this.total = this.cart.reduce((acc, curr) => {

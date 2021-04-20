@@ -1,12 +1,9 @@
 <template>
-  <!-- collapsed - для схлопывания группы товаров -->
   <div class="good-type" :class="{ 'good-type--collapsed': collapsed }">
     <template v-if="isReady">
-      <!-- рендерю название группы товаров -->
       <div class="good-type__name" @click="collapsed = !collapsed">
         <span>></span>{{ name }}
       </div>
-      <!-- тут рендерю массив самих товаров -->
       <div class="good-type__items">
         <goodItem
           v-for="(good, index) in arr_of_obj"
@@ -27,7 +24,7 @@ export default {
     return {
       collapsed: false,
       isReady: false,
-      name: "Загрузка...",
+      name: "Loading...",
     };
   },
   props: {
@@ -47,12 +44,12 @@ export default {
       if (this.type) {
         this.isReady = true;
       }
-      if (this.names || this.name == "Загрузка...") {
+      if (this.names || this.name == "Loading...") {
         this.name = this.names[this.type].G;
       }
     },
     names() {
-      if (this.name == "Загрузка...") {
+      if (this.name == "Loading...") {
         this.name = this.names[this.type].G;
       }
     }

@@ -1,21 +1,13 @@
 import axios from 'axios'
 
 const state = () => ({
-    // массив объектов с файла data.json
     goods: [],
-    // имена с файла names.json
     names: {},
-    // рандомное значение для курса валют
     currency: getRandomInt(20, 80),
-    // корзина
     cart: []
 })
 
 const actions = {
-    // я не хотел просто читать данные с JSON файла,
-    // поэтому симулировал запрос на API
-    // JSON файлы хранятся в папке static,
-    // после генерации статики, они будут лежать в корне сайта
     get_goods({ commit, state }) {
         axios({
             method: 'GET',
@@ -23,9 +15,7 @@ const actions = {
         }).then(res => {
             let temp = res.data.Value.Goods
             temp.forEach((el, ind) => {
-                // добавляю индекс элемента с исходного массива, чтобы потом легко его найти без перебора массива
                 el.index_of_goods = ind;
-                // и инициализация счетчика для корзины
                 el.counter = 0;
 
                 if (state.cart) {
@@ -50,15 +40,12 @@ const actions = {
         dispatch('get_names')
         dispatch('get_goods')
 
-        // каждые 15 сек устанавливается рандомное значение для курса валют.
         setInterval(function () {
             dispatch('get_names')
             dispatch('get_goods')
             commit("SET_CURRENCY", getRandomInt(20, 80))
         }, 15000)
     },
-
-    // добавление в корзину
     add_to_cart({ commit, state, dispatch }, index) {
         let isUpdate = false
 
@@ -74,7 +61,6 @@ const actions = {
         if (!isUpdate) commit('PUSH_TO_CART', state.goods[index])
     },
     remove_from_cart({ commit, state }, arr) {
-        // удалить из массива 
         commit("REMOVE_FROM_CART", arr)
     },
 }

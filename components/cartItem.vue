@@ -14,16 +14,15 @@
             name=""
             id=""
         /></span>
-        шт
         <div
           :class="{ 'cart-item__max-count--red': isRed }"
           class="cart-item__max-count"
         >
-          Количество ограничено ({{ item.P }})
+          Limited quantity ({{ item.P }})
         </div>
       </div>
       <div class="cart-item__price">
-        {{ (item.C * currency).toFixed(2) }} руб.
+        {{ (item.C * currency).toFixed(2) }}$
       </div>
       <button
         @click="remove_from_cart([ind, item.index_of_goods])"
@@ -46,7 +45,7 @@ export default {
   },
   props: {
     item: Object,
-    ind: Number, // index of cart array
+    ind: Number,
   },
   computed: {
     ...mapState({
@@ -56,7 +55,6 @@ export default {
     }),
   },
   beforeMount() {
-    // эта строка отправляет цену товара * количество к родительскому компоненту, где идет пересчет общей стоимости
     this.$emit(
       "new_count",
       (this.counter * this.item.C * this.currency).toFixed(2)
@@ -64,21 +62,14 @@ export default {
   },
   watch: {
     counter() {
-      // жестка валидация, пользователь строго ограничен диапазоном ввода от 1 до максимума
       if (this.counter == "" || this.counter < 1) {
         this.counter = 1;
       }
       if (this.counter > this.item.P) {
         this.counter = this.item.P;
       }
-
-      // преобразование типа данных ввода
       this.counter = parseInt(this.counter);
-
-      // установка нового значения счетчика в стейте
       this.NEW_COUNTER([this.ind, this.item.index_of_goods, this.counter]);
-
-      // тоже самое отправляет данные родителю
       this.$emit(
         "new_count",
         (this.counter * this.item.C * this.currency).toFixed(2)

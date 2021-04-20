@@ -1,32 +1,21 @@
 <template>
   <section class="container">
-    <!-- блок товаров -->
     <goods />
-
-    <!-- блок корзины -->
     <cart />
   </section>
 </template>
 
 <script>
-import axios from "axios";
 import goods from "@/components/goods";
 import cart from "@/components/cart";
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
-  head() {
-    return {
-      title: `Test Task from Omlekyn Ltd`,
-    }
-  },
   components: {
     goods,
     cart,
   },
   beforeMount() {
-    // симулирую запрос на сервер
-    // и сохраняю все в state
     this.save_data_to_store();
     console && console.log("%c+", 'font-size: 1px; padding: 40px 87px; line-height: 0; background: url("https://i.ibb.co/FYm176F/dev.gif"); background-size: 175px; color: transparent;');
   },
@@ -50,4 +39,3 @@ export default {
   }
 }
 </style>
-

@@ -1,21 +1,18 @@
 <template>
   <div class="good-item">
-    <!-- название типа товара -->
     <p>{{ name }}</p>
     <p class="good-item__info">
-      <!-- частьзадания, если isLow == true, то значение увеличилось -->
-      <!-- если isLow == false, то значение уменьшилось -->
       <span
         class="good__price"
         :class="[isLow ? 'good__price--red' : 'good__price--green']"
-        >Цена: {{ (dat.C * currency).toFixed(2) }}р.</span
+        >Price: {{ (dat.C * currency).toFixed(2) }}</span
       >
       <span class="good__count" :class="{ 'good__count--red': isRed }"
-        >Количество: {{ parseInt(count) }}шт.</span
+        >Count: {{ parseInt(count) }}</span
       >
     </p>
     <button :disabled="!canAdd" @click="add_to_cart()">
-      Добавить в корзину
+      Add to cart
     </button>
   </div>
 </template>
@@ -29,10 +26,9 @@ export default {
       oldPrice: 0,
       isLow: false,
       canAdd: true,
-      // количество оставшегося товара = общее количество товара - товары в корзине
       count: this.dat.P - this.dat.counter,
       item: {},
-      name: "Загрузка...",
+      name: "Loading...",
       isRed: false,
     };
   },
@@ -96,7 +92,7 @@ export default {
           this.canAdd = false;
         }
 
-        if (this.name === "Загрузка...") {
+        if (this.name === "Loading...") {
           this.name = this.names[this.dat.G].B[this.dat.T].N;
         }
       },
